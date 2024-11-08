@@ -32,15 +32,20 @@ const App = () => {
         <p className="text-center">Loading...</p>
       ) : (
         apodData && (
-          <div className="text-center">
-            <h2 className="text-2xl">{apodData.title}</h2>
+          
+          <div className="text-center bg-black text-white m-10 p-5">
+          <br></br>
+            <h2 className="text-3xl m-10 p-5">{apodData.title}</h2>
             <img
               src={apodData.url}
               alt={apodData.title}
-              className="w-full max-w-lg mx-auto my-4"
+              className="f-full max-b-lg mx-auto my-4"
             />
-            <p className="text-lg">{apodData.explanation}</p>
-            {apodData.copyright && <p className="text-sm">Copyright: {apodData.copyright}</p>}
+            <p className="text-xl m-10 p-5">{apodData.explanation}</p> <br></br>
+            <footer className="text-center bg-white text-black"><br></br> {apodData.copyright && <p className="text-sm">Copyright: {apodData.copyright}</p>}
+            
+            <a href="https://api.nasa.gov/">https://api.nasa.gov/</a><br></br><br></br></footer>
+           
           </div>
         )
       )}
