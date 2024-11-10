@@ -12,7 +12,7 @@ const App = () => {
     const getAPODData = async () => {
       const data = await fetchAPOD({
         // Example with a specific date or other parameters
-        date: "2024-11-08", // Replace with a dynamic date or use null for today
+        date: "2024-11-10", // Replace with a dynamic date or use null for today
         // startDate: "2024-11-01", 
         // endDate: "2024-11-08",
         count: 3, // Get 3 random images
@@ -27,24 +27,27 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="text-3xl text-center my-4">NASA Astronomy Picture of the Day</h1>
+      <h1 className="text-3xl text-center my-8">NASA Astronomy Picture of the Day</h1>
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : (
         apodData && (
           
-          <div className="text-center bg-black text-white m-10 p-5">
+          <div className="text-center bg-black text-white ">
           <br></br>
-            <h2 className="text-3xl m-10 p-5">{apodData.title}</h2>
+            <h2 className="text-3xl m-10 py-5">{apodData.title}</h2>
             <img
               src={apodData.url}
               alt={apodData.title}
               className="f-full max-b-lg mx-auto my-4"
             />
-            <p className="text-xl m-10 p-5">{apodData.explanation}</p> <br></br>
-            <footer className="text-center bg-white text-black"><br></br> {apodData.copyright && <p className="text-sm">Copyright: {apodData.copyright}</p>}
+            <p className="text-xl m-10 p-10">{apodData.explanation}</p>
+            <div className="text-center bg-white text-black my-10 p-10">
+            {apodData.copyright &&
+            <p className="text-sm">Copyright: {apodData.copyright}</p>}
             
-            <a href="https://api.nasa.gov/">https://api.nasa.gov/</a><br></br><br></br></footer>
+            <a href="https://api.nasa.gov/">https://api.nasa.gov/</a>
+            </div>
            
           </div>
         )
