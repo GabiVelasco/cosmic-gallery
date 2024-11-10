@@ -3,22 +3,40 @@ import React, { useEffect, useState } from 'react';
 import fetchAPOD from './nasaApi';  // Import the function to fetch APOD data
 
 const App = () => {
-  const [apodData, setApodData] = useState(null); // Store APOD data
+  const [apodData, setApodData] = useState([]); // Store APOD data for multiple days
   const [loading, setLoading] = useState(true); // Loading state to show when data is being fetched
 
-  // Function to fetch data for today
-  const fetchData = async () => {
-    const today = new Date().toISOString().split('T')[0];  // Get today's date in "YYYY-MM-DD" format
-    const data = await fetchAPOD(today);  // Pass the current date to the fetchAPOD function
-    setApodData(data);  // Store fetched data in state
-    setLoading(false);  // Set loading to false when data is fetched
+  // Function to fetch APOD data for a given date
+  const fetchData = async (date) => {
+    const data = await fetchAPOD(date); // Pass the date to the fetchAPOD function
+    return data;
   };
 
-  // useEffect to run fetchData on initial render and set up a 24-hour interval to refetch the data
-  useEffect(() => {
-    fetchData();  // Fetch data once on initial load
+  // Function to get formatted dates for the last 4 days (today, yesterday, day before yesterday, three days ago)
+  const getLastFourDays = () => {
+    const dates = [];
+    for (let i = 0; i < 4; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - i); // Subtract i days from the current date
+      const formattedDate = date.toISOString().split('T')[0]; // Format the date as "YYYY-MM-DD"
+      dates.push(formattedDate);
+    }
+    return dates;
+  };
 
-    const intervalId = setInterval(fetchData, 86400000); // Refetch every 24 hours (86400000 ms)
+  // useEffect to run fetchData on initial render for the last 4 days and set up a 24-hour interval to refetch the data
+  useEffect(() => {
+    const dates = getLastFourDays(); // Get the dates for the last 4 days
+    const fetchAllData = async () => {
+      setLoading(true); // Set loading to true while fetching
+      const allData = await Promise.all(dates.map(date => fetchData(date))); // Fetch data for all days
+      setApodData(allData); // Store all the fetched data
+      setLoading(false); // Set loading to false when data is fetched
+    };
+    
+    fetchAllData(); // Fetch data for the last 4 days
+
+    const intervalId = setInterval(fetchAllData, 86400000); // Refetch every 24 hours (86400000 ms)
 
     return () => clearInterval(intervalId); // Cleanup interval when component is unmounted
   }, []);
@@ -29,20 +47,28 @@ const App = () => {
       {loading ? (
         <p className="text-center text-lg">Loading...</p> // Show loading text while fetching
       ) : (
-        apodData && (
-          <div className="text-center max-w-4xl mx-auto my-4">
-            <h2 className="text-2xl my-8 font-semibold">{apodData.title}</h2>
-            <img
-              src={apodData.url}
-              alt={apodData.title}
-              className="max-w-full h-auto rounded-lg shadow-lg mb-1"
-            />
-            <p className="text-lg my-8 text-justify">{apodData.explanation}</p>
-            <div className="my-8">
-              {apodData.copyright && <p className="italic text-sm">Copyright: {apodData.copyright}</p>}
+        <div className="w-full max-w-4xl mx-auto">
+          {apodData.map((data, index) => (
+            <div key={index} className="text-center my-8">
+              <h2 className="text-2xl font-semibold">{`APOD for ${index === 0 ? 'Today' : (index === 1 ? 'Yesterday' : (index === 2 ? 'Day Before Yesterday' : 'Three Days Ago'))}`}</h2>
+              {data ? (
+                <>
+                  <img
+                    src={data.url}
+                    alt={data.title}
+                    className="max-w-full h-auto rounded-lg shadow-lg my-4"
+                  />
+                  <p className="text-lg text-justify">{data.explanation}</p>
+                  {data.copyright && (
+                    <p className="italic text-sm mt-4">{`Copyright: ${data.copyright}`}</p>
+                  )}
+                </>
+              ) : (
+                <p className="text-lg">No data available for this day.</p>
+              )}
             </div>
-          </div>
-        )
+          ))}
+        </div>
       )}
     </div>
   );
