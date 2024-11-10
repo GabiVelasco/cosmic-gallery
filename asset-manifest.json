@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cosmic-gallery/static/css/main.2f143e87.css",
+    "main.js": "/cosmic-gallery/static/js/main.e2151d58.js",
+    "index.html": "/cosmic-gallery/index.html",
+    "main.2f143e87.css.map": "/cosmic-gallery/static/css/main.2f143e87.css.map",
+    "main.e2151d58.js.map": "/cosmic-gallery/static/js/main.e2151d58.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2f143e87.css",
+    "static/js/main.e2151d58.js"
+  ]
+}
