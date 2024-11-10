@@ -1,54 +1,46 @@
 // src/App.js
-
-import React, { useEffect, useState } from "react";
-import fetchAPOD from "./nasaApi"; // Import the function to fetch data
+import React, { useEffect, useState } from 'react';
+import fetchAPOD from './nasaApi';  // Import the function to fetch APOD data
 
 const App = () => {
-  const [apodData, setApodData] = useState(null); // State to store API data
-  const [loading, setLoading] = useState(true); // State to track loading status
+  const [apodData, setApodData] = useState(null); // Store APOD data
+  const [loading, setLoading] = useState(true); // Loading state to show when data is being fetched
 
+  // Function to fetch data for today
+  const fetchData = async () => {
+    const today = new Date().toISOString().split('T')[0];  // Get today's date in "YYYY-MM-DD" format
+    const data = await fetchAPOD(today);  // Pass the current date to the fetchAPOD function
+    setApodData(data);  // Store fetched data in state
+    setLoading(false);  // Set loading to false when data is fetched
+  };
+
+  // useEffect to run fetchData on initial render and set up a 24-hour interval to refetch the data
   useEffect(() => {
-    // Fetch data when component mounts
-    const getAPODData = async () => {
-      const data = await fetchAPOD({
-        // Example with a specific date or other parameters
-        date: "2024-11-10", // Replace with a dynamic date or use null for today
-        // startDate: "2024-11-01", 
-        // endDate: "2024-11-08",
-        count: 3, // Get 3 random images
-        thumbs: true, // Get the thumbnail
-      });
-      setApodData(data); // Store the fetched data in state
-      setLoading(false); // Set loading to false once data is fetched
-    };
+    fetchData();  // Fetch data once on initial load
 
-    getAPODData();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+    const intervalId = setInterval(fetchData, 86400000); // Refetch every 24 hours (86400000 ms)
+
+    return () => clearInterval(intervalId); // Cleanup interval when component is unmounted
+  }, []);
 
   return (
-    <div className="App">
-      <h1 className="text-3xl text-center my-8">NASA Astronomy Picture of the Day</h1>
+    <div className="App bg-gray-900 text-white min-h-screen flex flex-col items-center">
+      <h1 className="text-3xl text-center my-8 font-bold">NASA Astronomy Picture of the Day</h1>
       {loading ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center text-lg">Loading...</p> // Show loading text while fetching
       ) : (
         apodData && (
-          
-          <div className="text-center bg-black text-white ">
-          <br></br>
-            <h2 className="text-3xl m-10 py-5">{apodData.title}</h2>
+          <div className="text-center max-w-4xl mx-auto my-4">
+            <h2 className="text-2xl my-8 font-semibold">{apodData.title}</h2>
             <img
               src={apodData.url}
               alt={apodData.title}
-              className="f-full max-b-lg mx-auto my-4"
+              className="max-w-full h-auto rounded-lg shadow-lg mb-1"
             />
-            <p className="text-xl m-10 p-10">{apodData.explanation}</p>
-            <div className="text-center bg-white text-black my-10 p-10">
-            {apodData.copyright &&
-            <p className="text-sm">Copyright: {apodData.copyright}</p>}
-            
-            <a href="https://api.nasa.gov/">https://api.nasa.gov/</a>
+            <p className="text-lg my-8 text-justify">{apodData.explanation}</p>
+            <div className="my-8">
+              {apodData.copyright && <p className="italic text-sm">Copyright: {apodData.copyright}</p>}
             </div>
-           
           </div>
         )
       )}
