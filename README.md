@@ -5,7 +5,10 @@
 ```markdown
 # NASA Astronomy Picture of the Day (APOD) Project
 
-This project, created by Gabriela Velasco, integrates the NASA API to display the Astronomy Picture of the Day (APOD) along with its description, allowing users to view the latest images from NASA. The app fetches data from NASA's API and displays the daily pictures along with their titles, explanations, and additional details. 
+This project, created by Gabriela Velasco,
+integrates the NASA API to display the Astronomy Picture of the Day (APOD) along with its description,
+allowing users to view the latest images from NASA. The app fetches data from NASA's API and displays
+the daily pictures along with their titles, explanations, and additional details. 
 
 ## Technologies Used
 - React
