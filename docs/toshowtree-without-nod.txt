@@ -1,0 +1,41 @@
+function Show-Tree {
+    param([string]$Path)
+
+    # Get all directories recursively excluding node_modules
+    $directories = Get-ChildItem -Path $Path -Recurse -Directory | Where-Object { $_.FullName -notmatch '\\node_modules' }
+
+    # Get all files recursively excluding node_modules
+    $files = Get-ChildItem -Path $Path -Recurse -File | Where-Object { $_.FullName -notmatch '\\node_modules' }
+
+    # Function to display items in tree format
+    function Show-TreeItem {
+        param([string]$ItemPath, [int]$Level)
+        
+        # Indentation
+        $indent = " " * ($Level * 2)
+
+        # Display the item
+        Write-Host "$indent$($ItemPath)"
+    }
+
+    # Display directories first
+    foreach ($dir in $directories) {
+        # Output the directory name with indentation
+        Show-TreeItem -ItemPath $dir.Name -Level 0
+
+        # Display files inside this directory
+        $filesInDir = $files | Where-Object { $_.DirectoryName -eq $dir.FullName }
+        foreach ($file in $filesInDir) {
+            Show-TreeItem -ItemPath $file.Name -Level 1
+        }
+    }
+
+    # Display files that are not in any folder (top-level)
+    $topLevelFiles = $files | Where-Object { $_.DirectoryName -eq $Path }
+    foreach ($file in $topLevelFiles) {
+        Show-TreeItem -ItemPath $file.Name -Level 0
+    }
+}
+
+# Run the function starting from the current directory
+Show-Tree -Path (Get-Location)

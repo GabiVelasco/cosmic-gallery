@@ -1,9 +1,16 @@
+
+
 ### `README.md`
 
 ```markdown
 # NASA Astronomy Picture of the Day (APOD) Project
 
-This project integrates the NASA API to display the Astronomy Picture of the Day (APOD) using React and Tailwind CSS. The app fetches data from NASA's API and displays the daily picture along with its title and explanation.
+This project, created by Gabriela Velasco, integrates the NASA API to display the Astronomy Picture of the Day (APOD) along with its description, allowing users to view the latest images from NASA. The app fetches data from NASA's API and displays the daily pictures along with their titles, explanations, and additional details. 
+
+## Technologies Used
+- React
+- Tailwind CSS
+- NASA API
 
 ## Project Setup
 
@@ -50,10 +57,26 @@ Launches the test runner in the interactive watch mode. See the section about [r
 ### `npm run build`
 Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed!
 
-## Technologies Used
-- React
-- Tailwind CSS
-- NASA API
+## Project Structure
+
+```plaintext
+public/
+  ├── index.html
+src/
+  ├── App.css
+  ├── App.js
+  ├── footer.js
+  ├── index.css
+  ├── index.js
+  ├── nasaApi.js
+.gitignore
+changelog.md
+package-lock.json
+package.json
+postcss.config.js
+README.md
+tailwind.config.js
+```
 
 ## Future Work
 - Set up backend integration for scheduling and storing NASA data in a database.
@@ -61,7 +84,6 @@ Builds the app for production to the `build` folder. It correctly bundles React 
 
 ## License
 This project is licensed under the MIT License.
-
 ```
 
 ---
@@ -78,6 +100,18 @@ This project is licensed under the MIT License.
 - Displayed APOD with title, image, and explanation.
 - Setup environment variables for API key.
 
+## [Nov 10, 2024]
+
+### Added
+- **New Feature**: Show images for four days instead of just one.
+- **New Feature**: Automatic date added to display daily pictures.
+- **Footer Component**: Created `footer.js` for adding footer content to the app.
+- **API Update**: Enhanced the NASA API integration for fetching multiple days' images.
+- **File Cleanup**: Removed unnecessary files including `public/manifest.json` and `public/robots.txt`.
+
+### Removed
+- **Unnecessary Files**: Removed unused files and images for a cleaner project structure.
+
 ## [Nov 8, 2024]
 
 ### Added
@@ -89,38 +123,6 @@ This project is licensed under the MIT License.
 - **Package Files**: Updated `package.json` and `package-lock.json` with necessary dependencies and configurations.
 - **React App**: Added a new React project using Create React App template.
 - **API Setup**: Started integrating the NASA API to fetch the Astronomy Picture of the Day (APOD).
-
 ```
 
----
-
-### `Project Directory Structure`
-
-```plaintext
-nasa-apod/
-├── node_modules/        // Dependencies
-├── public/
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-├── src/
-│   ├── App.css
-│   ├── App.js
-│   ├── App.test.js
-│   ├── index.css
-│   ├── index.js
-│   ├── logo.svg
-│   ├── reportWebVitals.js
-│   └── setupTests.js
-├── .gitignore
-├── package-lock.json
-├── package.json
-├── postcss.config.js
-└── tailwind.config.js
-```
-
----
 
