@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import fetchAPOD from './nasaApi';  // Import the function to fetch APOD data
 import Footer from './footer';  // Import the Footer component
 
+require('dotenv').config();
+
+
 
 const App = () => {
   const [apodData, setApodData] = useState([]); // Store APOD data for multiple days
