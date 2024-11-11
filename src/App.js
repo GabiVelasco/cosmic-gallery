@@ -63,7 +63,7 @@ const App = () => {
                     alt={data.title}
                     className="max-w-full h-auto rounded-lg shadow-lg my-4"
                   />
-                  <p className="text-lg text-justify">{data.explanation}</p>
+                  <p className="text-lg text-justify p-4">{data.explanation}</p>
                   {data.copyright && (
                     <p className="italic text-sm mt-4">{`Copyright: ${data.copyright}`}</p>
                   )}
